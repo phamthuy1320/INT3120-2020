@@ -1,6 +1,7 @@
 import * as React from 'react';
-import {StyleSheet,TextInput,View,Alert,Button,ScrollView,Text,Image} from 'react-native';
+import {StyleSheet,View,ScrollView,Text, TouchableOpacity} from 'react-native';
 import Constants from 'expo-constants';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 import styles from '../assets/css/css';
 
 class Tutorial extends React.Component {
@@ -8,9 +9,14 @@ class Tutorial extends React.Component {
     return (
     <ScrollView style={{marginTop: Constants.statusBarHeight,backgroundColor:'#f7f7f7'}} stickyHeaderIndices={[0]}>
     <View style={styles.banner}>
-      <Text style={[styles.paragraph,]} onPress={this._Done}>
-      <Image style={[styles.icon_back,]} source={require('../assets/icon/back.png')}/>
-      Hướng dẫn học</Text>
+      <View style={{flexDirection:'row',}}>
+      <TouchableOpacity  onPress={this._Done}>
+        <Icons name={'arrow-back'} size={30} color='#fff' />
+      </TouchableOpacity>
+      <Text style={[styles.paragraph,{marginHorizontal:20}] }>
+        Hướng dẫn học
+      </Text>
+      </View>
     </View>
     <View style={styles.container2}>
       <View>

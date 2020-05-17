@@ -1,10 +1,12 @@
 import React,{useState} from 'react';
 import {CheckBox,StyleSheet,View,ScrollView,UIManager,Platform,LayoutAnimation,Text,Image, TouchableOpacity} from 'react-native';
 import styles from '../assets/css/css';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 
 //Tham khảo: https://medium.com/@iakash1195/expandable-listview-in-react-native-53ebdd78abea
 
 const Lists=require('./databaseTick.json');
+
 const CheckBoxItemComponent = ()=>{
   const [isSelected,setSelected]=useState(false);
   return(
@@ -25,6 +27,7 @@ class ExpandableItemComponent extends React.Component {
     };
     
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.item.isExpanded) {
       this.setState(() => {
@@ -103,10 +106,16 @@ class TickWords2 extends React.Component {
     
     return (
     <View style={styles.container}>
-         <View style={styles.banner}>
-          <Text style={[styles.paragraph,]} onPress={this._Done}>
-            <Image style={[styles.icon_back,]} source={require('../assets/icon/back.png')}/>Học từ đã chọn</Text>
+      <View style={styles.banner}>
+        <View style={{flexDirection:'row',}}>
+          <TouchableOpacity  onPress={this._Done}>
+            <Icons name={'arrow-back'} size={30} color='#fff' />
+          </TouchableOpacity>
+          <Text style={[styles.paragraph,{marginHorizontal:20}] }>
+            Học từ đã chọn
+          </Text>
         </View>
+      </View>
         <ScrollView>
           {this.state.listDataSource.map((item, key) => (
             <ExpandableItemComponent

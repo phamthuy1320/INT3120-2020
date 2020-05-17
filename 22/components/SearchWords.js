@@ -1,99 +1,136 @@
 import * as React from 'react';
-import {StyleSheet,TextInput,View,Alert,Button,ScrollView,Text,Image,FlatList} from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { ScrollView, View,StyleSheet ,UIManager,Platform,LayoutAnimation,Image,Text,TextInput,FlatList,TouchableOpacity,Linking,SafeAreaView,} from 'react-native';
+import Constants from 'expo-constants';
+
 import styles from '../assets/css/css';
 
-class SearchWords extends React.Component {
-   constructor(props) {
-    super(props);
-    this.state = {
-      data:[],
-    };
-  }
-  GetItem(item) {
-    Alert.alert(item);
-  }
-  Render_FlatList_Sticky_header = () => {
-    var Sticky_header_View = (
-      <View>
-        <View style={styles.banner}>
-          <Text
-            style={[styles.text_banner, { flex: 1, flexDirection: 'column' }]}
-            onPress={this._Done}>
-            <Image
-              style={styles.icon_back}
-              source={require('../assets/icon/back.png')}
-            />
-            Tra từ
-          </Text>
-          <Text style={{ flex: 1, flexDirection: 'column' }} />
-        </View>
-        <View style={styles1.container}>
-          <TextInput
-            title="Tìm kiếm"
-            placeholder="Tìm Kiếm..."
-            style={styles1.TextInput}
-            onChangeText={text => this.SearchFilterFunction(text)}
-          />
-        </View>
-      </View>
-    );
+import Icons from 'react-native-vector-icons/MaterialIcons';
+import ArrowRight from 'react-native-vector-icons/AntDesign';
+const Lists=require('./database2.json');
 
-    return Sticky_header_View;
+class SearchWords extends React.Component{
+  constructor(props) {
+    super(props);
+    //setting default state
+    this.state = { isLoading: true, search: '' };
+    this.arrayholder = [];
+  }
+  componentDidMount() {
+    
+    this.setState(
+      {
+        isLoading: false,
+        dataSource: Lists,
+      },
+      function() {
+        this.arrayholder = Lists;
+      }
+    );
+  }
+
+  search = text => {
+    console.log(text);
+  };
+  clear = () => {
+    this.search.clear();
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <View style={styles1.button}>
-              <Text
-                style={styles1.text}
-                onPress={this.GetItem.bind(this, item.key)}>
-                {item.key}
-              </Text>
-            </View>
-          )}
-          ListHeaderComponent={this.Render_FlatList_Sticky_header}
-          stickyHeaderIndices={[0]}
+  SearchFilterFunction(text) {
+    //passing the inserted text in textinput
+    const newData = this.arrayholder.filter(function(item) {
+      //applying filter for the inserted text in search bar
+      const itemData = item.word ? item.word.toUpperCase() : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+
+    this.setState({
+      //setting the filtered newData on datasource
+      //After setting the data it will automatically re-render the view
+      dataSource: newData,
+      search: text,
+    });
+  }
+  BannerTrans=()=>{
+    return(
+      <View>
+        {/*banner main */}
+      <View style={styles.banner}>
+        <View style={{flexDirection:'row',}}>
+            <TouchableOpacity  onPress={this._Done}>
+              <Icons name={'arrow-back'} size={30} color='#fff' />
+            </TouchableOpacity>
+            <Text style={[styles.paragraph,{marginHorizontal:20}] }>
+              Tra từ
+            </Text>
+        </View>
+      </View>     
+        {/*banner translate*/}
+      <View style={{flexDirection:'row',flex:1,backgroundColor:'#237921'}} >
+        <Text style={[styles.text,{flex:1,color:'#ffffff',fontWeight: 'bold',}]}>English</Text>
+        <TouchableOpacity style={{flex:1, alignContent:'center', alignSelf:'center'}}>
+          <ArrowRight name={'arrowright'} size={25} color='#fff' />
+        </TouchableOpacity>
+        <Text style={[styles.text,{flex:1,color:'#ffffff',fontWeight: 'bold',}]}>Vietnamese</Text>
+      </View>
+
+  </View>
+    );
+  }
+
+  InputSearchAndTrans=()=>{
+    return(
+      <View style={{marginTop:20}} >
+        <TextInput 
+          style={{height:200,borderWidth:1,borderColor:'#dfeae1',marginHorizontal:10,paddingHorizontal:20,fontSize:20,backgroundColor:'#ffffff'}} 
+          placeholder="Nhập từ cần tìm vào đây"
+          onChangeText={text => this.SearchFilterFunction(text)}
+          onClear={text => this.SearchFilterFunction('')}
+          value={this.state.search}
         />
+         <View style={[styles.container2]}>
+          
+         <FlatList
+          data={this.state.dataSource}
+          
+          //Item Separator View
+          renderItem={({ item }) => (
+            // Single Comes here which will be repeatative for the FlatListItems
+	        <TouchableOpacity style={[styles.button,{width:'100%',height:200,backgroundColor:'blue',}]}>
+            <Text style={[styles.text,{color:'#ffffff'}]}>{item.description}</Text>
+	        </TouchableOpacity>
+          )}
+         
+          style={{ width:'100%' }}
+          keyExtractor={(item, index) => index.toString()}
+        />
+       </View>
       </View>
     );
   }
- 
+
+ /* InputTrans=()=>{
+    return(
+      <View style={[styles.container2]}>
+        <View style={[styles.button,{width:'100%',height:200,backgroundColor:'blue',}]}>
+          <Text style={[styles.text,{color:'#ffffff'}]}>{this.state.dataSource.word}</Text>
+        </View>
+      </View>
+    );
+  }*/
+
+  render(){
+    return (
+      <ScrollView style={{marginTop: Constants.statusBarHeight,backgroundColor:'#f8fff9'}} stickyHeaderIndices={[0]}>
+            {this.BannerTrans()}
+            {this.InputSearchAndTrans()}
+            {/*this.InputTrans()*/}
+      </ScrollView>
+  );
+  }
   _Done= async () => {
     this.props.navigation.navigate('Menu');
     }
-
 }
 
-const styles1 = StyleSheet.create({
-  container: {
-    backgroundColor: '#dfeae1',
-    padding: 10,
-  },
-  button: {
-    justifyContent: 'center',
-    margin: 10,
-    backgroundColor: '#ffffff',
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#dfeae1',
-  },
-  text: {
-    fontFamily: 'Times New Roman',
-    fontSize: 20,
-    marginLeft: 15,
-  },
-  TextInput: {
-    width: '100%',
-    height: 40,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 5,
-    borderColor: '#65a844',
-  },
-});
 export default SearchWords;

@@ -1,33 +1,56 @@
 import * as React from 'react';
-import { Button,ScrollView, View,StyleSheet ,Alert,Image,Text,TextInput,FlatList,TouchableOpacity,Linking,SafeAreaView,} from 'react-native';
+import { Button,ScrollView, View,StyleSheet ,UIManager,Platform,LayoutAnimation,Image,Text,TextInput,FlatList,TouchableOpacity,Linking,SafeAreaView,} from 'react-native';
 import Constants from 'expo-constants';
 
 import styles from '../assets/css/css';
-import Lists from './Database';
+import { SearchBar } from 'react-native-elements';
 
-
+const Lists=require('./databaseTick.json');
 
 class Menu2 extends React.Component {
   constructor(props) {
-    let temp=Lists.slice(0, 3000);
     super(props);
-    this.state = {
-      data:temp,
-    };
+    //setting default state
+    this.state = { isLoading: true, search: '' };
+    this.arrayholder = [];
   }
- 
-  SearchFilterFunction(_text) {
-    let temp=Lists.slice(0, 3000);
-    let newData =temp.filter((item)=>{
-      let itemData = item.word.toUpperCase();
-      let textData = _text.toUpperCase();
-       return itemData.indexOf(textData)>-1 ;
+  componentDidMount() {
+    
+    this.setState(
+      {
+        isLoading: false,
+        dataSource: Lists,
+      },
+      function() {
+        this.arrayholder = Lists;
+      }
+    );
+  }
+
+  search = text => {
+    console.log(text);
+  };
+  clear = () => {
+    this.search.clear();
+  };
+
+  SearchFilterFunction(text) {
+    //passing the inserted text in textinput
+    const newData = this.arrayholder.filter(function(item) {
+      //applying filter for the inserted text in search bar
+      const itemData = item.word ? item.word.toUpperCase() : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
     });
 
     this.setState({
-      data: newData,
+      //setting the filtered newData on datasource
+      //After setting the data it will automatically re-render the view
+      dataSource: newData,
+      search: text,
     });
   }
+  
 
   Headder=()=>{
     return(
@@ -35,14 +58,19 @@ class Menu2 extends React.Component {
       <View style={styles.banner}>
           <Text style={[styles.paragraph,{ textAlign: 'center'}]}>3000 Từ vựng Tiếng Anh</Text>
       </View>
-      <View style={{backgroundColor: '#f8fff9',padding: 10,}}>
-      <TextInput
-        title="Tra từ"
-        placeholder="Tra từ..."
-        style={styles.TextInput}
-        onChangeText={text => this.SearchFilterFunction(text)}
-      />
-      </View>
+      
+     <SearchBar
+          round
+          searchIcon={{ size: 24 }}
+          leftIconContainerStyle={{backgroundColor:'white'}}
+          onChangeText={text => this.SearchFilterFunction(text)}
+          onClear={text => this.SearchFilterFunction('')}
+          placeholder="Nhập chủ đề cần tìm..."
+          inputContainerStyle={{backgroundColor:'white'}}
+          containerStyle={{backgroundColor:'#237921'}}
+          value={this.state.search}
+     />
+     
   </View>
     );
   }
@@ -70,10 +98,14 @@ MenuList=()=>{
           <Image style={styles.icon} source={require('../assets/icon/book.png')}/>
           <Text style={styles.text} onPress={this._Tutorial}>Hướng dẫn</Text>
         </View>
-
-        <View style={[styles.button,{justifyContent: 'center', backgroundColor:'red'}]}>
-          <Text style={[styles.text,{color:'#ffffff'}]} onPress={this._Back} >Trở về</Text>
-        </View>
+        <View style={styles.button}>
+          <Image style={styles.icon} source={require('../assets/icon/search.png')}/>
+          <Text style={styles.text} onPress={this._Search}>Tìm Kiếm</Text>
+          </View>
+        {//<View style={[styles.button,{justifyContent: 'center', backgroundColor:'red'}]}>
+          //<Text style={[styles.text,{color:'#ffffff'}]} onPress={this._Back} >Trở về</Text>
+        //</View>
+        }
       </View>
     );
   }
@@ -139,6 +171,9 @@ MenuList=()=>{
     }
   _Add= async () => {
     this.props.navigation.navigate('Add');
+    }
+  _Search= async () => {
+    this.props.navigation.navigate('Search');
     }
   _Back= async () =>{
      this.props.navigation.navigate('Welcome');

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {StyleSheet,TextInput,View,Alert,Button,ScrollView,Text,Image} from 'react-native';
+import {StyleSheet,TextInput,View,Alert,Button,ScrollView,Text,Image,TouchableOpacity} from 'react-native';
 import Constants from 'expo-constants';
 import styles from '../assets/css/css';
-
+import Icons from 'react-native-vector-icons/MaterialIcons';
 class AddWord extends React.Component {
   constructor(props) {
     super(props);
@@ -16,9 +16,14 @@ class AddWord extends React.Component {
     return (
     <ScrollView style={{marginTop: Constants.statusBarHeight,backgroundColor:'#f8fff9'}} stickyHeaderIndices={[0]}>
     <View style={styles.banner}>
-      <Text style={[styles.paragraph,]} onPress={this._Done}>
-      <Image style={[styles.icon_back]} source={require('../assets/icon/back.png')}/>
-      Thêm từ</Text>
+      <View style={{flexDirection:'row',}}>
+      <TouchableOpacity  onPress={this._Done}>
+        <Icons name={'arrow-back'} size={30} color='#fff' />
+      </TouchableOpacity>
+      <Text style={[styles.paragraph,{marginHorizontal:20}] }>
+        Thêm từ
+      </Text>
+      </View>
     </View>
       <Text style={{textAlign:'center',fontWeight:'bold',fontSize:30,marginTop:20,color:'#166d18'}}>Thêm từ mới</Text>
       <Text style={{textAlign:'center',fontSize:20,color:'#166d18'}}>(Điền đầy đủ các trường)</Text>
@@ -82,7 +87,7 @@ const styles1=StyleSheet.create({
     borderWidth: 1,
     fontSize: 20,
     borderColor: '#848383',
-    borderRadius:20,
+    borderRadius:10,
     backgroundColor: '#ffffff',
     paddingLeft:10,
     marginHorizontal:20,
@@ -94,11 +99,11 @@ const styles1=StyleSheet.create({
     marginHorizontal:20,
   },
   button:{
-    height:60,
+    height:50,
     alignItems: 'center',
     marginHorizontal:20,
     justifyContent: 'center',
-    backgroundColor:'#65a844', 
+    backgroundColor:'#0cbb66', 
     marginTop:50,
     borderRadius:5,
   },

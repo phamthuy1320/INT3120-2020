@@ -1,99 +1,122 @@
 import * as React from 'react';
 import {
-  StyleSheet,
-  View,
-  FlatList,
-  List,
   Text,
-  Alert,
-  Image,
-  ScrollView,
-  TextInput,
-  ListView,
+  View,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  Platform,
 } from 'react-native';
-
-import Constants from 'expo-constants';
+import { SearchBar } from 'react-native-elements';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 
 import styles from '../assets/css/css';
-
+import { TouchableOpacity } from 'react-native-gesture-handler';
 const Titles= require('./database.json');
-      const LENGTH=Titles.length
-class ListWords1 extends React.Component {
-  
+
+export default class ListWords extends React.Component {
   constructor(props) {
-    let temp=Titles.slice(0, LENGTH);
     super(props);
-    this.state = {
-      data:temp,
-    };
+    //setting default state
+    this.state = { isLoading: true, search: '' };
+    this.arrayholder = [];
   }
- 
-  SearchFilterFunction(_text) {
-    let temp=Titles.slice(0, LENGTH);
-    let newData =temp.filter((item)=>{
-      let itemData = item.key.toUpperCase();
-      let textData = _text.toUpperCase();
-       return itemData.indexOf(textData)>-1;
+  componentDidMount() {
+    
+    this.setState(
+      {
+        isLoading: false,
+        dataSource: Titles,
+      },
+      function() {
+        this.arrayholder = Titles;
+      }
+    );
+  }
+
+  search = text => {
+    console.log(text);
+  };
+  clear = () => {
+    this.search.clear();
+  };
+
+  SearchFilterFunction(text) {
+    //passing the inserted text in textinput
+    const newData = this.arrayholder.filter(function(item) {
+      //applying filter for the inserted text in search bar
+      const itemData = item.key ? item.key.toUpperCase() : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
     });
 
     this.setState({
-      data: newData,
+      //setting the filtered newData on datasource
+      //After setting the data it will automatically re-render the view
+      dataSource: newData,
+      search: text,
     });
   }
 
-  _Detail = async () => {
-    this.props.navigation.navigate('DetailItemComponent');
-  };
 
-  Render_FlatList_Sticky_header = () => {
-    var Sticky_header_View = (
-      <View>
-        <View style={styles.banner}>
-          <Text style={[styles.paragraph,]} onPress={this._Done}>
-            <Image style={[styles.icon_back,]} source={require('../assets/icon/back.png')}/>
-            Danh sách từ vựng
-          </Text>
-        </View>
-        <View style={{backgroundColor: '#f8fff9',padding: 10,}}>
-          <TextInput
-            title="Tìm kiếm"
-            placeholder="Tìm kiếm..."
-            style={styles.TextInput}
-            onChangeText={text => this.SearchFilterFunction(text)}
-          />
-        </View>
-      </View>
-    );
-
-    return Sticky_header_View;
-  };
 
   render() {
+    if (this.state.isLoading) {
+      //Loading View while data is loading
+      return (
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     return (
+      //ListView to show with textinput used as search bar
       <View style={styles.container}>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <View style={styles1.button}>
-              <Text
-                style={styles.text}
-                onPress={this._Detail}>
-                {item.key}
-              </Text>
-            </View>
-          )}
-          ListHeaderComponent={this.Render_FlatList_Sticky_header}
+       <View>
+        <View style={styles.banner}>
+          <View style={{flexDirection:'row',}}>
+          <TouchableOpacity  onPress={this._Done}>
+            <Icons name={'arrow-back'} size={30} color='#fff' />
+          </TouchableOpacity>
+          <Text style={[styles.paragraph,{marginHorizontal:20}] }>
+            Danh sách từ vựng
+          </Text>
+          </View>
           
-          stickyHeaderIndices={[0]}
+        </View>
+        <SearchBar
+          round
+          searchIcon={{ size: 24 }}
+          leftIconContainerStyle={{backgroundColor:'white'}}
+          onChangeText={text => this.SearchFilterFunction(text)}
+          onClear={text => this.SearchFilterFunction('')}
+          placeholder="Nhập chủ đề cần tìm..."
+          inputContainerStyle={{backgroundColor:'white'}}
+          containerStyle={{backgroundColor:'#237921'}}
+          value={this.state.search}
+      />
+      </View>
+        <FlatList
+          data={this.state.dataSource}
+          
+          //Item Separator View
+          renderItem={({ item }) => (
+            // Single Comes here which will be repeatative for the FlatListItems
+	        <TouchableOpacity style={styles1.button}>
+            <Text style={styles.text}>{item.key}</Text>
+	        </TouchableOpacity>
+          )}
+         
+          style={{ marginTop: 10 }}
+          keyExtractor={(item, index) => index.toString()}
         />
       </View>
     );
   }
-  _Done = async () => {
+ _Done = async () => {
     this.props.navigation.navigate('Menu');
   };
 }
-
 const styles1 = StyleSheet.create({
   button: {
     justifyContent: 'center',
@@ -105,4 +128,14 @@ const styles1 = StyleSheet.create({
     borderColor: '#dfeae1',
   },
 });
-export default ListWords1;
+const styles2 = StyleSheet.create({
+  viewStyle: {
+    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: 'white',
+    marginTop: Platform.OS == 'ios' ? 30 : 0,
+  },
+  textStyle: {
+    padding: 10,
+  },
+});

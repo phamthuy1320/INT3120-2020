@@ -18,6 +18,6 @@ export default createAppContainer(createSwitchNavigator(
      Search:SearchWords,
   },
   {
-    initialRouteName: 'List',
+    initialRouteName: 'Search',
   }
   ));
