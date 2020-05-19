@@ -60,10 +60,10 @@ class ExpandableItemComponent extends React.Component {
           activeOpacity={0.8}
           onPress={this.props.onClickFunction}
           style={styles1.button}>
-            <View style={{flexDirection: "row",}}>
-              <CheckBoxItemComponent/>
+            {/*<View style={{flexDirection: "row",}}>
+              <CheckBoxItemComponent/>*/}
               <Text style={styles1.header}>{this.props.item.word}</Text>
-            </View>
+            {/*</View>*/}
           <View
           style={{
             height: this.state.layoutHeight,
@@ -71,8 +71,8 @@ class ExpandableItemComponent extends React.Component {
           }}>
          
           {/*Content under the header of the Expandable List Item*/}
-            <Text style={[styles1.text,{color:'green',marginHorizontal:20}]}>/{this.props.item.pronounce}/</Text>
-            <Text style={[styles1.text,{marginHorizontal:20}]}>{this.props.item.description}</Text>
+            <Text style={[styles1.text,{color:'green'}]}>/{this.props.item.pronounce}/</Text>
+            <Text style={[styles1.text]}>{this.props.item.description}</Text>
 
         </View>
         </TouchableOpacity>

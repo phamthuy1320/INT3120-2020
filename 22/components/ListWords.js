@@ -1,116 +1,91 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  List,
-  Text,
-  Alert,
-  Image,
-  ScrollView,
-  TextInput,
-  ListView,
-} from 'react-native';
-
+import { Text, View, StyleSheet ,Button, FlatList, TouchableOpacity,ScrollView} from 'react-native';
 import Constants from 'expo-constants';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import styles from '../assets/css/css';
 
-const Titles= require('./database.json');
-      const LENGTH=Titles.length
-class DetailItemComponent extends React.Component {
-  //Custom Component for the Expandable List
-  render() {
+const Lists=[{key: 'a'}, {key: 'b'}]
+
+
+function _Function(item) {
     return (
       <View>
-        {/*Header of the Expandable List Item*/}
-        
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={this.props.onClickFunction}
-          style={styles1.button}>
-            <Text>{this.props.item.key}</Text>
-        </TouchableOpacity>
-        
+        <Text>{item}</Text>
       </View>
     );
   }
-}
-class ListWords1 extends React.Component {
   
-  constructor() {
+
+class ListScreen extends React.Component {
+constructor() {
     super();
-    this.state = { listDataSource: Titles };
+    this.state = { listDataSource: Lists };
   }
- 
-  SearchFilterFunction(_text) {
-    let temp=Titles.slice(0, LENGTH);
-    let newData =temp.filter((item)=>{
-      let itemData = item.key.toUpperCase();
-      let textData = _text.toUpperCase();
-       return itemData.indexOf(textData)>-1;
-    });
-
-    this.setState({
-      data: newData,
-    });
-  }
-
-  _Detail(item) {
-    this.props.navigation.navigate({item});
+  cb=(item)=>{
+    this.props.navigation.navigate(item);
   };
-
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.banner}>
-          <Text style={[styles.paragraph,]} onPress={this._Done}>
-            <Image style={[styles.icon_back,]} source={require('../assets/icon/back.png')}/>
-            Danh sách từ vựng
-          </Text>
-        </View>
-        <View style={{backgroundColor: '#f8fff9',padding: 10,}}>
-          <TextInput
-            title="Tìm kiếm"
-            placeholder="Tìm kiếm..."
-            style={styles.TextInput}
-            onChangeText={text => this.SearchFilterFunction(text)}
-          />
-        </View>
+      <View>
+        <Text>Open up App.js to start working on your app!</Text>
+        <Text>Changes you make will automatically reload.</Text>
+        <Text>Shake your phone to open the developer menu.</Text>
         <ScrollView>
-          {this.state.listDataSource.map((item, key) => (
-            < DetailItemComponent
-              key={item.key}
-              onClickFunction={this._Detail.bind(this, key)}
-              item={item}
-            />
-          ))}
+          {Lists.map((item) => (
+             <TouchableOpacity  onPress={()=>this.cb(item.key)}> 
+                 <Text>{item.key}</Text> 
+             </TouchableOpacity>
+             )
+             )
+             }
         </ScrollView>
       </View>
     );
   }
-  _Done = async () => {
-    this.props.navigation.navigate('Menu');
-  };
 }
-export default createAppContainer(createSwitchNavigator(
-  {
-     List:ListWords1,
-     QuestionDetail: QuestionDetailScreen,
-  },
-  {
-    initialRouteName: 'List',
-  }
-  ));
 
-const styles1 = StyleSheet.create({
-  button: {
-    justifyContent: 'center',
-    marginHorizontal: 10,
-    marginVertical:5,
-    backgroundColor: '#ffffff',
-    height: 60,
-    borderWidth: 1,
-    borderColor: '#dfeae1',
-  },
-});
+
+const Stack = createStackNavigator();
+
+function MyStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="List" component={ListScreen} 
+      options={{
+          title: 'My home',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            height:100,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }}}/>
+      
+      {
+        Lists.map((item) => (
+      <Stack.Screen name={item.key} component={_Function.bind(this,item.key)} 
+       options={{
+          title: item.key,
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            height:100,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }}}
+      />))
+      }
+    </Stack.Navigator>
+  );
+}
+
+ export default function App() {
+  return (
+    <NavigationContainer>
+      <MyStack />
+    </NavigationContainer>
+  );
+}

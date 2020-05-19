@@ -3,74 +3,16 @@ import { Button,ScrollView, View,StyleSheet ,UIManager,Platform,LayoutAnimation,
 import Constants from 'expo-constants';
 
 import styles from '../assets/css/css';
-import { SearchBar } from 'react-native-elements';
 
-const Lists=require('./databaseTick.json');
 
 class Menu2 extends React.Component {
-  constructor(props) {
-    super(props);
-    //setting default state
-    this.state = { isLoading: true, search: '' };
-    this.arrayholder = [];
-  }
-  componentDidMount() {
-    
-    this.setState(
-      {
-        isLoading: false,
-        dataSource: Lists,
-      },
-      function() {
-        this.arrayholder = Lists;
-      }
-    );
-  }
-
-  search = text => {
-    console.log(text);
-  };
-  clear = () => {
-    this.search.clear();
-  };
-
-  SearchFilterFunction(text) {
-    //passing the inserted text in textinput
-    const newData = this.arrayholder.filter(function(item) {
-      //applying filter for the inserted text in search bar
-      const itemData = item.word ? item.word.toUpperCase() : ''.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-
-    this.setState({
-      //setting the filtered newData on datasource
-      //After setting the data it will automatically re-render the view
-      dataSource: newData,
-      search: text,
-    });
-  }
-  
-
+ 
   Headder=()=>{
     return(
       <View>
       <View style={styles.banner}>
           <Text style={[styles.paragraph,{ textAlign: 'center'}]}>3000 Từ vựng Tiếng Anh</Text>
-      </View>
-      
-     <SearchBar
-          round
-          searchIcon={{ size: 24 }}
-          leftIconContainerStyle={{backgroundColor:'white'}}
-          onChangeText={text => this.SearchFilterFunction(text)}
-          onClear={text => this.SearchFilterFunction('')}
-          placeholder="Nhập chủ đề cần tìm..."
-          inputContainerStyle={{backgroundColor:'white'}}
-          containerStyle={{backgroundColor:'#237921'}}
-          value={this.state.search}
-     />
-     
+      </View> 
   </View>
     );
   }

@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
 import {CheckBox,StyleSheet,View,ScrollView,UIManager,Platform,LayoutAnimation,Text,Image, TouchableOpacity} from 'react-native';
 import styles from '../assets/css/css';
-import ListWords1 from './ListWords2';
+
 
 //Tham khảo: https://medium.com/@iakash1195/expandable-listview-in-react-native-53ebdd78abea
-const Lists=require('./databaseTick.json');
+
 const CheckBoxItemComponent = ()=>{
   const [isSelected,setSelected]=useState(false);
   return(
@@ -80,7 +80,7 @@ class ExpandableItemComponent extends React.Component {
 }
 class DisplayList extends React.Component {
 
-  constructor() {
+  constructor () {
     super();
     if (Platform.OS === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -114,6 +114,7 @@ class DisplayList extends React.Component {
   );
   }
 }
+
 
 const styles1 = StyleSheet.create({
   button: {
