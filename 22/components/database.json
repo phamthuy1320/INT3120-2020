@@ -1,124 +1,139 @@
-[{ "key":"Người dùng tự thêm",
-    "values":[{
+[
+  {
+    "key": "Người dùng tự thêm",
+    "values": [
+      {
         "description": "danh từ: sự tiếp tục, sự làm tiếp",
         "isExpanded": false,
         "pronounce": "kən,tinju'eiʃn",
         "word": "continuation"
-    },
-    {
+      },
+      {
         "description": "danh từ: sao băng",
         "isExpanded": false,
         "pronounce": "'faiəbɔ:l",
         "word": "globe-lightning"
-    },
-    {
+      },
+      {
         "description": "tính từ: rộng rãi",
         "isExpanded": false,
         "pronounce": "'rumi",
         "word": "roomy"
-    },
-    {
+      },
+      {
         "description": "tính từ: làm lúng túng, làm bối rối",
         "isExpanded": false,
         "pronounce": "pə'pleksiɳ",
         "word": "perplexing"
-    },
-    {
+      },
+      {
         "description": "danh từ: cn giận điên lên, cn giận tái người",
         "isExpanded": false,
         "pronounce": "'wait'reid",
         "word": "white rage"
-    }]
+      }
+    ]
 
-},
-{ "key": "Ăn uống" ,
-    "values":[{
+  },
+  {
+    "key": "Ăn uống",
+    "values": [
+      {
         "description": "danh từ: sự đứng; thế đứng",
         "isExpanded": false,
         "pronounce": "'stændiɳ",
         "word": "standing"
-    },
-    {
+      },
+      {
         "description": "danh từ: sự bắt chước, sự lệ thuộc",
         "isExpanded": false,
         "pronounce": "si'kwæsiti",
         "word": "sequacity"
-    },
-    {
+      },
+      {
         "description": "nội động từ: bật nảy; co giân, có tính đàn hồi",
         "isExpanded": false,
         "pronounce": "ri'zail",
         "word": "resile"
-    },
-    {
+      },
+      {
         "description": "danh từ: lòng tự trọng, thái độ tự trọng",
         "isExpanded": false,
         "pronounce": "'selfris'pekt",
         "word": "self-respect"
-    }]
-},
-{ "key": "Địa lý" ,
-    "values":[{
+      }
+    ]
+  },
+  {
+    "key": "Địa lý",
+    "values": [
+      {
         "description": "danh từ: sự đứng; thế đứng",
         "isExpanded": false,
         "pronounce": "'stændiɳ",
         "word": "standing"
-    },
-    {
+      },
+      {
         "description": "danh từ: sự bắt chước, sự lệ thuộc",
         "isExpanded": false,
         "pronounce": "si'kwæsiti",
         "word": "sequacity"
-    },
-    {
+      },
+      {
         "description": "nội động từ: bật nảy; co giân, có tính đàn hồi",
         "isExpanded": false,
         "pronounce": "ri'zail",
         "word": "resile"
-    },
-    {
+      },
+      {
         "description": "danh từ: lòng tự trọng, thái độ tự trọng",
         "isExpanded": false,
         "pronounce": "'selfris'pekt",
         "word": "self-respect"
-    }]},
-{ "key": "Điện ảnh" ,
-    "values":[{
+      }
+    ]
+  },
+  {
+    "key": "Điện ảnh",
+    "values": [
+      {
         "description": "danh từ: sự đứng; thế đứng",
         "isExpanded": false,
         "pronounce": "'stændiɳ",
         "word": "standing"
-    },
-    {
+      },
+      {
         "description": "danh từ: sự bắt chước, sự lệ thuộc",
         "isExpanded": false,
         "pronounce": "si'kwæsiti",
         "word": "sequacity"
-    },
-    {
+      },
+      {
         "description": "nội động từ: bật nảy; co giân, có tính đàn hồi",
         "isExpanded": false,
         "pronounce": "ri'zail",
         "word": "resile"
-    },
-    {
+      },
+      {
         "description": "danh từ: lòng tự trọng, thái độ tự trọng",
         "isExpanded": false,
         "pronounce": "'selfris'pekt",
         "word": "self-respect"
-    }]},
-{ "key": "Đo lường" },
-{ "key": "Đô Thị" },
-{ "key": "Động vật" },
-{ "key": "Gia đình" },
-{ "key": "Giải trí" },
-{ "key": "Giao thông" },
-{ "key": "Hành động" },
-{ "key": "Họ hàng" },
-{ "key": "Mua sắm" },
-{ "key": "Thời tiết " },
-{ "key": "Du lịch" },
-{ "key": "Phụ kiện" },
-{ "key": "Thực vật" }
-       
+      }
+    ]
+  },
+  { "key": "Đo lường" },
+  { "key": "Đô Thị" },
+  { "key": "Động vật" },
+  { "key": "Gia đình" },
+  { "key": "Giải trí" },
+  { "key": "Giao thông" },
+  { "key": "Hành động" },
+  { "key": "Họ hàng" },
+  { "key": "Mua sắm" },
+  { "key": "Thời tiết " },
+  { "key": "Du lịch" },
+  { "key": "Phụ kiện" },
+  { "key": "Thực vật" }
+
 ]

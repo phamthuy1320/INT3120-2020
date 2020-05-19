@@ -1,4 +1,4 @@
-const Lists=[
+const Lists = [
     {
         "description": "danh từ,  số nhiều as,  a's: (thông tục) loại a, hạng nhất, hạng tốt nhất hạng rất tốt",
         "html": "<Text>a</Text><Text><Text>/ei, ə/</Text></Text><Text>danh từ,  số nhiều as,  a's</Text><View><Text>(thông tục) loại a, hạng nhất, hạng tốt nhất hạng rất tốt<View style=\"list-style-type:circle\"><Text>his health is a:<Text> sức khoẻ anh ta vào loại a</Text></Text></View></Text><Text>(âm nhạc) la<View style=\"list-style-type:circle\"><Text>a sharp:<Text> la thăng</Text></Text><Text>a flat:<Text> la giáng</Text></Text></View></Text><Text>người giả định thứ nhất; trường hợp giả định thứ nhất<View style=\"list-style-type:circle\"><Text>from a to z:<Text> từ đầu đến đuôi, tường tận</Text></Text><Text>not to know a from b:<Text> không biết tí gì cả; một chữ bẻ đôi cũng không biết</Text></Text></View></Text></View><Text>mạo từ</Text><View><Text>một; một (như kiểu); một (nào đó)<View style=\"list-style-type:circle\"><Text>a very cold day:<Text> một ngày rất lạnh</Text></Text><Text>a dozen:<Text> một tá</Text></Text><Text>a few:<Text> một ít</Text></Text><Text>all of a size:<Text> tất cả cùng một cỡ</Text></Text><Text>a Shakespeare:<Text> một (văn hào như kiểu) Sếch-xpia</Text></Text><Text>a Mr Nam:<Text> một ông Nam (nào đó)</Text></Text></View></Text><Text>cái, con, chiếc, cuốn, người, đứa...;<View style=\"list-style-type:circle\"><Text>a cup:<Text> cái chén</Text></Text><Text>a knife:<Text> con dao</Text></Text><Text>a son of the Party:<Text> người con của Đảng</Text></Text><Text>a Vietnamese grammar:<Text> cuốn ngữ pháp Việt Nam</Text></Text></View></Text></View><Text>giới từ</Text><View><Text>mỗi, mỗi một<View style=\"list-style-type:circle\"><Text>twice a week:<Text> mỗi tuần hai lần</Text></Text></View></Text></View>",
@@ -21001,4 +21001,4 @@ const Lists=[
     }
 ]
 
-  export default Lists;
+export default Lists;

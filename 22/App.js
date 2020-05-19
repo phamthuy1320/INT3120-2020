@@ -1,4 +1,4 @@
-import {createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 import Welcome from './components/Welcome';
 import Menu2 from './components/Menu2';
 import AddWord from './components/AddWord';
@@ -8,16 +8,16 @@ import TickWords from './components/TickWords';
 import SearchWords from './components/SearchWords';
 
 export default createAppContainer(createSwitchNavigator(
-  {
-     Welcome:Welcome,
-     Menu: Menu2,
-     Add:AddWord,
-     List:ListWords2,
-     Tutorial:Tutorial,
-     Tick:TickWords,
-     Search:SearchWords,
-  },
-  {
-    initialRouteName: 'Search',
-  }
-  ));
+    {
+        Welcome: Welcome,
+        Menu: Menu2,
+        Add: AddWord,
+        List: ListWords2,
+        Tutorial: Tutorial,
+        Tick: TickWords,
+        Search: SearchWords,
+    },
+    {
+        initialRouteName: 'Search',
+    }
+));
