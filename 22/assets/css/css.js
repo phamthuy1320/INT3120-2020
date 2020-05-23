@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   text:{
-    fontSize: 20,
-    padding:15,
+    fontSize: 15,
+    padding:20,
   },
   text_button:{
     fontSize: 20,
@@ -92,5 +92,33 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     margin:-40,
   },
+  textInput:{
+    height:60,
+    borderWidth:1,
+    borderColor:'#dfeae1',
+    marginHorizontal:10,
+    paddingHorizontal:20,
+    fontSize:20,
+    backgroundColor:'#ffffff',
+    borderRadius:20
+  },
+  languageText:{
+    fontSize: 15,
+    padding:20,
+    flex:1,
+    color:'#ffffff',
+    fontWeight: 'bold'
+  },
+  label:{
+    backgroundColor:'blue',
+    width:'100%',
+    height:60,
+    marginTop:10,
+    flexDirection:'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#dfeae1',
+    borderRadius:5,
+  }
 });
 export default styles;

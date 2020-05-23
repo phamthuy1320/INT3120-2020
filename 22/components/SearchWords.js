@@ -12,7 +12,7 @@ class SearchWords extends React.Component{
   constructor(props) {
     super(props);
     //setting default state
-    this.state = { isLoading: true, search: '',trans: '' };
+    this.state = { isLoading: true, search: '' };
     this.arrayholder = [];
   }
   componentDidMount() {
@@ -28,11 +28,11 @@ class SearchWords extends React.Component{
     );
   }
 
+  search = text => {
+    console.log(text);
+  };
   clear = () => {
-    this.setState({
-      search:'',
-      trans:'',
-    })
+    this.search.clear();
   };
 
   SearchFilterFunction(text) {
@@ -44,22 +44,13 @@ class SearchWords extends React.Component{
       return itemData.indexOf(textData) > -1;
     });
 
-    const notFound= [{
-      "description": " ",
-      "isExpanded": false,
-      "pronounce": " ",
-      "word": "Không tìm thấy kết quả nào!"
-  }];
     this.setState({
       //setting the filtered newData on datasource
       //After setting the data it will automatically re-render the view
       dataSource: newData,
       search: text,
-      trans: (newData.length>0)?newData:notFound,
     });
   }
-
-
   BannerTrans=()=>{
     return(
       <View>
@@ -76,68 +67,58 @@ class SearchWords extends React.Component{
       </View>     
         {/*banner translate*/}
       <View style={{flexDirection:'row',flex:1,backgroundColor:'#237921'}} >
-        <Text style={[styles.text,{flex:1,color:'#ffffff',fontWeight: 'bold',}]}>English</Text>
-        <ArrowRight name={'arrowright'} size={25} color='#fff' style={{flex:1, alignContent:'center', alignSelf:'center'}} />
-        <Text style={[styles.text,{flex:1,color:'#ffffff',fontWeight: 'bold',}]}>Vietnamese</Text>
+        <Text style={styles.languageText}>English</Text>
+        <TouchableOpacity style={{flex:1, alignContent:'center', alignSelf:'center'}}>
+          <ArrowRight name={'arrowright'} size={25} color='#fff' style={{alignSelf:'center'}} />
+        </TouchableOpacity>
+        <Text style={styles.languageText}>Vietnamese</Text>
       </View>
-
   </View>
     );
   }
 
-  InputSearch=()=>{
+  InputSearchAndTrans=()=>{
     return(
-      <View style={{marginTop:20,flexDirection:'row'}} >
-      
+      <View style={{marginTop:20}} >
         <TextInput 
-          style={{flex:4,height:60,borderWidth:1,borderColor:'#dfeae1',marginLeft:10,paddingHorizontal:20,fontSize:20,backgroundColor:'#ffffff'}} 
+          style={styles.textInput} 
           placeholder="Nhập từ cần tìm vào đây"
           onChangeText={text => this.SearchFilterFunction(text)}
+          onClear={text => this.SearchFilterFunction('')}
           value={this.state.search}
         />
-        <TouchableOpacity
-          style={{flex:0.5,height:60,borderWidth:0.5,borderColor:'#dfeae1',paddingTop:12.5,alignContent:'center',alignItems:'center',marginRight:10,backgroundColor:'#ffffff'}}
-          onPress={this.clear}>
-              <ArrowRight name='close' size={25} color='#000' />
-        </TouchableOpacity>
-       </View>
-      
-    );
-  }
-
-  InputTrans=()=>{
-    return(
-      <View style={[styles.container2]}>
-       
-         <View style={[styles.button,{width:'100%',height:200,backgroundColor:'blue',}]} >
-          <FlatList
-            data={this.state.trans}
-            
-            //Item Separator View
-            renderItem={({ item }) => (
-              // Single Comes here which will be repeatative for the FlatListItems
-              <View>
-                <Text style={[styles.text,{color:'#ffffff'}]}>{item.word}</Text>
-                <Text style={[styles.text,{color:'#ffffff'}]}>{item.description}</Text>
-              </View>
-            )}
+         <View style={[styles.container2]}>
           
-            style={{ marginTop: 10 }}
-            keyExtractor={(item, index) => index.toString()}
-          />
-           
-	        </View>
+         <FlatList
+          data={this.state.dataSource}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={[styles.label]}>
+              <Text style={[styles.text,{color:'#ffffff'}]}>{item.description}</Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+       </View>
       </View>
     );
   }
+
+ /* InputTrans=()=>{
+    return(
+      <View style={[styles.container2]}>
+        <View style={[styles.button,{width:'100%',height:200,backgroundColor:'blue',}]}>
+          <Text style={[styles.text,{color:'#ffffff'}]}>{this.state.dataSource.word}</Text>
+        </View>
+      </View>
+    );
+  }*/
 
   render(){
     return (
       <ScrollView style={{marginTop: Constants.statusBarHeight,backgroundColor:'#f8fff9'}} stickyHeaderIndices={[0]}>
             {this.BannerTrans()}
-            {this.InputSearch()}
-            {this.InputTrans()}
-            
+            {this.InputSearchAndTrans()}
+            {/*this.InputTrans()*/}
       </ScrollView>
   );
   }
@@ -147,3 +128,4 @@ class SearchWords extends React.Component{
 }
 
 export default SearchWords;
+
