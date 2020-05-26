@@ -126,9 +126,10 @@ class TickWords2 extends React.Component {
           ))}
         </ScrollView>
 
-       <View style={[styles1.button1,{justifyContent: 'center' ,}]}>
+       {/*<View style={[styles1.button1,{justifyContent: 'center' ,}]}>
          <Text style={[styles.text,{color:'#ffffff'}]} onPress={this._Practice}>Bắt đầu luyện tập</Text>
       </View>
+          */}
     </View>
   );
   }

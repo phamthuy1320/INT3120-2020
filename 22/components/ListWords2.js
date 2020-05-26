@@ -12,13 +12,15 @@ import Icons from 'react-native-vector-icons/MaterialIcons';
 
 import styles from '../assets/css/css';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
 const Titles= require('./database.json');
 
+         
 export default class ListWords extends React.Component {
   constructor(props) {
     super(props);
     //setting default state
-    this.state = { isLoading: true, search: '' };
+    this.state = { isLoading: true, search: '',show: true};
     this.arrayholder = [];
   }
   componentDidMount() {
@@ -27,13 +29,14 @@ export default class ListWords extends React.Component {
       {
         isLoading: false,
         dataSource: Titles,
+        show: false,
       },
       function() {
         this.arrayholder = Titles;
       }
     );
   }
-
+  
   search = text => {
     console.log(text);
   };
@@ -57,8 +60,23 @@ export default class ListWords extends React.Component {
       search: text,
     });
   }
+ 
+  showHide=(index)=>{
+    const array = [...this.state.dataSource];
+    array[index]['detail'] = !array[index]['detail'];
+    this.setState(() => {
+      return {
+        dataSource: array,
+      };
+    });
+    if (this.state.show == true) {
+      this.setState({ show: false,});
+    } else {
+      this.setState({ show: true });
+    }
+  }
 
-
+          
 
   render() {
     if (this.state.isLoading) {
@@ -96,15 +114,30 @@ export default class ListWords extends React.Component {
           value={this.state.search}
       />
       </View>
+        
         <FlatList
           data={this.state.dataSource}
           
           //Item Separator View
-          renderItem={({ item }) => (
+          renderItem={({ item,index}) => (
             // Single Comes here which will be repeatative for the FlatListItems
-	        <TouchableOpacity style={styles1.button}>
-            <Text style={styles.text}>{item.key}</Text>
-	        </TouchableOpacity>
+            <View>       
+            <TouchableOpacity index={item.key} style={styles1.button} onPress={this.showHide.bind(this,index)}>
+              
+              
+              {(this.state.show==true&item.detail==true)?(
+                <View>
+                  <Text style={[styles.text,{alignSelf:"center"}]}>{item.key}</Text>
+                {item.values.map(it=>(
+                <View key={it.word} style={styles1.item}>
+                  <Text style={styles1.text}>{it.word}</Text>
+                  <Text style={[styles1.text,{color:'#237921'}]}>/{it.pronounce}/</Text>
+                  <Text style={styles1.text}>{it.description}</Text>
+                 </View>))}
+                 </View>
+              ):(<Text style={styles.text}>{item.key}</Text>)}
+            </TouchableOpacity>
+          </View> 
           )}
          
           style={{ marginTop: 10 }}
@@ -123,10 +156,19 @@ const styles1 = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical:5,
     backgroundColor: '#ffffff',
-    height: 60,
+    minHeight: 60,
     borderWidth: 1,
     borderColor: '#dfeae1',
   },
+  text:{
+    fontSize:20,
+    marginLeft:10,
+  },
+  item: {
+    backgroundColor:"#c9fbcb",
+    marginVertical:10,
+    marginHorizontal:10,
+  }
 });
 const styles2 = StyleSheet.create({
   viewStyle: {

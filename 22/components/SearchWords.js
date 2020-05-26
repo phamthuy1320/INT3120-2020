@@ -43,20 +43,33 @@ class SearchWords extends React.Component{
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
-
-    const notFound= [{
-      "description": " ",
-      "isExpanded": false,
-      "pronounce": " ",
-      "word": "Không tìm thấy kết quả nào!"
-  }];
+{/*
+  const notFound= [{
+    "description": " ",
+    "isExpanded": false,
+    "pronounce": " ",
+    "word": "Không tìm thấy kết quả nào!"
+}];*/
+}
+    
+  if(text.length<1){
     this.setState({
       //setting the filtered newData on datasource
       //After setting the data it will automatically re-render the view
       dataSource: newData,
       search: text,
-      trans: (newData.length>0)?newData:notFound,
+      trans: '',
     });
+  }
+  else{
+    this.setState({
+      //setting the filtered newData on datasource
+      //After setting the data it will automatically re-render the view
+      dataSource: newData,
+      search: text,
+      trans: (newData.length>0)?newData:'',
+    });
+  }
   }
 
 
@@ -75,10 +88,10 @@ class SearchWords extends React.Component{
         </View>
       </View>     
         {/*banner translate*/}
-      <View style={{flexDirection:'row',flex:1,backgroundColor:'#237921'}} >
-        <Text style={[styles.text,{flex:1,color:'#ffffff',fontWeight: 'bold',}]}>English</Text>
-        <ArrowRight name={'arrowright'} size={25} color='#fff' style={{flex:1, alignContent:'center', alignSelf:'center'}} />
-        <Text style={[styles.text,{flex:1,color:'#ffffff',fontWeight: 'bold',}]}>Vietnamese</Text>
+      <View style={{flexDirection:'row',backgroundColor:'#237921'}} >
+        <Text style={[styles.text,{flex:2,color:'#ffffff',fontWeight: 'bold',}]}>English</Text>
+        <ArrowRight name={'arrowright'} size={25} color='#fff' style={{flex:0.5, alignContent:'center', alignSelf:'center'}} />
+        <Text style={[styles.text,{flex:2,color:'#ffffff',fontWeight: 'bold',}]}>Vietnamese</Text>
       </View>
 
   </View>
@@ -106,39 +119,47 @@ class SearchWords extends React.Component{
   }
 
   InputTrans=()=>{
-    return(
-      <View style={[styles.container2]}>
-       
-         <View style={[styles.button,{width:'100%',height:200,backgroundColor:'blue',}]} >
-          <FlatList
-            data={this.state.trans}
-            
-            //Item Separator View
-            renderItem={({ item }) => (
-              // Single Comes here which will be repeatative for the FlatListItems
-              <View>
-                <Text style={[styles.text,{color:'#ffffff'}]}>{item.word}</Text>
-                <Text style={[styles.text,{color:'#ffffff'}]}>{item.description}</Text>
-              </View>
-            )}
+    if(this.state.trans.length>0){
+      return(
+     
+        <FlatList
+          data={this.state.trans}
           
-            style={{ marginTop: 10 }}
-            keyExtractor={(item, index) => index.toString()}
-          />
-           
-	        </View>
-      </View>
+          //Item Separator View
+          renderItem={({ item }) => (
+            // Single Comes here which will be repeatative for the FlatListItems
+              <View style={[{marginHorizontal:10,marginTop:10,width:'95%',backgroundColor:'#235915',minHeight:60}]}>
+              <Text style={[styles.text,{color:'#ffffff'}]}>+ {item.word}</Text>
+              <Text style={[styles.text,{color:'#ffffff'}]}>-> {item.description}</Text>
+            </View>
+          )}
+         
+          style={{ marginTop: 10 }}
+          keyExtractor={(item, index) => index.toString()}
+        />
+ 
     );
+    }
+    else{
+      return(
+        <View style={[{marginHorizontal:10,marginTop:10,width:'95%',backgroundColor:'#235915',minHeight:60}]}>
+          <Text style={[styles.text,{color:'#ffffff'}]}>Không tìm thấy kết quả nào! </Text>
+        </View>
+      )
+    }
   }
 
   render(){
     return (
-      <ScrollView style={{marginTop: Constants.statusBarHeight,backgroundColor:'#f8fff9'}} stickyHeaderIndices={[0]}>
-            {this.BannerTrans()}
-            {this.InputSearch()}
-            {this.InputTrans()}
-            
-      </ScrollView>
+      <SafeAreaView  style={styles.container}>
+
+        <View style={{backgroundColor:'#f8fff9'}}>
+          {this.BannerTrans()}   
+          {this.InputSearch()}
+          <Text style={[styles.text,{color:'#000'}]}>Gợi ý</Text>
+          {this.InputTrans()}
+        </View>
+      </SafeAreaView >
   );
   }
   _Done= async () => {

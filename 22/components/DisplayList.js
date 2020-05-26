@@ -86,7 +86,7 @@ class DisplayList extends React.Component {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
     
-    this.state = { listDataSource: Lists };
+    this.state = { listDataSource: Trans };
   }
  
   updateLayout = index => {
