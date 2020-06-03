@@ -1,34 +1,28 @@
 import React,{useState} from 'react';
-import {CheckBox,StyleSheet,View,ScrollView,UIManager,Platform,LayoutAnimation,Text,Image, TouchableOpacity} from 'react-native';
+import {CheckBox,StyleSheet,View,ScrollView,UIManager,Platform,LayoutAnimation,Text,ActivityIndicator, TouchableOpacity, Button} from 'react-native';
 import styles from '../assets/css/css';
 import Icons from 'react-native-vector-icons/MaterialIcons';
+import IconsAnt from 'react-native-vector-icons/AntDesign';
+import * as SQLite from 'expo-sqlite';
+import { Input } from 'react-native-elements';
+import {polyfill} from 'react-lifecycles-compat';
+
+const db = SQLite.openDatabase("db.db");
 
 //Tham khảo: https://medium.com/@iakash1195/expandable-listview-in-react-native-53ebdd78abea
 
-const Lists=require('./databaseTick.json');
-
-const CheckBoxItemComponent = ()=>{
-  const [isSelected,setSelected]=useState(false);
-  return(
-    <View>
-    <CheckBox
-      value={isSelected}
-      onValueChange={setSelected}
-   />
-   </View>
-  );
-};
 class ExpandableItemComponent extends React.Component {
   //Custom Component for the Expandable List
   constructor() {
     super();
     this.state = {
+      isLoading: false,
       layoutHeight: 0,
     };
     
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps){
     if (nextProps.item.isExpanded) {
       this.setState(() => {
         return {
@@ -43,7 +37,7 @@ class ExpandableItemComponent extends React.Component {
       });
     }
   }
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState){
     if (this.state.layoutHeight !== nextState.layoutHeight) {
       return true;
     }
@@ -53,17 +47,14 @@ class ExpandableItemComponent extends React.Component {
   
   render() {
     return (
-      <View>
+      <View style={{width:'90%'}}>
         {/*Header of the Expandable List Item*/}
        
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={this.props.onClickFunction}
-          style={styles1.button}>
-            {/*<View style={{flexDirection: "row",}}>
-              <CheckBoxItemComponent/>*/}
-              <Text style={styles1.header}>{this.props.item.word}</Text>
-            {/*</View>*/}
+         >
+          <Text style={styles1.header}>{this.props.item.word}</Text>
           <View
           style={{
             height: this.state.layoutHeight,
@@ -75,22 +66,36 @@ class ExpandableItemComponent extends React.Component {
             <Text style={[styles1.text]}>{this.props.item.description}</Text>
 
         </View>
+        
         </TouchableOpacity>
         
       </View>
     );
   }
 }
+polyfill(ExpandableItemComponent);
 class TickWords2 extends React.Component {
-
   constructor() {
     super();
     if (Platform.OS === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
-    this.state = { listDataSource: Lists };
+   
+    this.state = { listDataSource: [] ,delete:''};
   }
- 
+
+  componentDidMount(){
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM addWord',
+        null,
+        (tx, results) =>{
+         this.setState ( { listDataSource: results.rows._array });
+        }
+      );
+    });
+    
+  }
   updateLayout = index => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const array = [...this.state.listDataSource];
@@ -102,8 +107,40 @@ class TickWords2 extends React.Component {
     });
   };
  
+  clearItem = (item) => {
+    db.transaction(
+      tx => {
+        tx.executeSql('delete from addWord where word=?;',[item]),
+        tx.executeSql("select * from addWord", null,(tx, results) =>{
+         this.setState ( { listDataSource: results.rows._array });
+         console.log(JSON.stringify(results))
+        }
+      );
+      },
+    );}
+
+    clearData = () => {
+      db.transaction(
+        tx => {
+          tx.executeSql('delete from addWord;'),
+          tx.executeSql("select * from addWord", null,(tx, results)  =>{
+            this.setState ( { listDataSource: results.rows._array });
+            console.log(JSON.stringify(results))
+          }
+            
+          );
+        },
+      );}
+
  render() {
-    
+  if (this.state.isLoading) {
+    //Loading View while data is loading
+    return (
+      <View style={{ flex: 1, paddingTop: 20 }}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
     return (
     <View style={styles.container}>
       <View style={styles.banner}>
@@ -112,30 +149,43 @@ class TickWords2 extends React.Component {
             <Icons name={'arrow-back'} size={30} color='#fff' />
           </TouchableOpacity>
           <Text style={[styles.paragraph,{marginHorizontal:20}] }>
-            Học từ đã chọn
+            Danh sách từ đã thêm
           </Text>
+          {/*<Button title='list' onPress={getData}/>
+          <Button title='test' onPress={test}/>*/}
         </View>
       </View>
+  
         <ScrollView>
           {this.state.listDataSource.map((item, key) => (
-            <ExpandableItemComponent
-              key={item.word}
-              onClickFunction={this.updateLayout.bind(this, key)}
-              item={item}
-            />
+            <View key={item.word} style={[styles1.button,{flexDirection:'row'}]}>
+              <ExpandableItemComponent
+                key={item.word}
+                onClickFunction={this.updateLayout.bind(this, key)}
+                item={item}
+              />
+              <IconsAnt name={'delete'} size={30} color='#000' onPress={this.clearItem.bind(this, item.word)} style={{alignSelf:'center',marginRight:20}} />
+              
+          </View>
+            
           ))}
         </ScrollView>
 
-       {/*<View style={[styles1.button1,{justifyContent: 'center' ,}]}>
-         <Text style={[styles.text,{color:'#ffffff'}]} onPress={this._Practice}>Bắt đầu luyện tập</Text>
-      </View>
-          */}
+        <View style={{flexDirection: 'row',justifyContent: 'space-between',}}>
+          <TouchableOpacity style={[styles1.button1,]} onPress={this._AddWord}>
+            <Text style={[styles.text,{color:'#ffffff'}]}> Thêm từ </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles1.button1,{backgroundColor:'red'}]} onPress={this.clearData}>
+            <Text style={[styles.text,{color:'#ffffff'}]}> Xóa tất cả </Text>
+          </TouchableOpacity>
+        </View>
     </View>
   );
   }
-  _Practice= async () => {
-    this.props.navigation.navigate('Menu');//tới trang luyện tập
-    }
+
+  _AddWord = async () =>{
+    this.props.navigation.navigate('Add');
+  }
   _Done= async () => {
     this.props.navigation.navigate('Menu');
     }
@@ -156,10 +206,14 @@ const styles1 = StyleSheet.create({
   button1:{
     backgroundColor:'#0cbb66',
     height:50,
+    width:'45%',
     flexDirection:'row',
     alignItems: 'center',
+    alignSelf:'center',
+    alignContent:'center',
     color:'#ffffff',
     margin :10,
+    justifyContent: 'center',
   },
   text: {
     fontSize: 20,

@@ -1,16 +1,8 @@
 import {StyleSheet} from 'react-native';
-
 import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
-  TextInput: {
-    width: '100%',
-    height: 40,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 5,
-    borderColor: '#33CCFF',
-  },
+ 
   text_banner:{
     fontSize: 25,
     color:'#ffffff',
@@ -27,7 +19,7 @@ const styles = StyleSheet.create({
   },
   
   container: {
-    paddingTop: Constants.statusBarHeight,
+    paddingTop:Constants.statusBarHeight,
     backgroundColor: '#f8fff9',
     height:'100%',
   },

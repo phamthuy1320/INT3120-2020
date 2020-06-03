@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { ScrollView, View,StyleSheet ,UIManager,Platform,LayoutAnimation,Image,Text,TextInput,FlatList,TouchableOpacity,Linking,SafeAreaView,} from 'react-native';
-import Constants from 'expo-constants';
 
 import styles from '../assets/css/css';
 
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import ArrowRight from 'react-native-vector-icons/AntDesign';
-const Lists=require('./database2.json');
+const Lists=require('../assets/data/database2.json');
 
 class SearchWords extends React.Component{
   constructor(props) {
@@ -43,14 +42,6 @@ class SearchWords extends React.Component{
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
-{/*
-  const notFound= [{
-    "description": " ",
-    "isExpanded": false,
-    "pronounce": " ",
-    "word": "Không tìm thấy kết quả nào!"
-}];*/
-}
     
   if(text.length<1){
     this.setState({
@@ -89,9 +80,9 @@ class SearchWords extends React.Component{
       </View>     
         {/*banner translate*/}
       <View style={{flexDirection:'row',backgroundColor:'#237921'}} >
-        <Text style={[styles.text,{flex:2,color:'#ffffff',fontWeight: 'bold',}]}>English</Text>
-        <ArrowRight name={'arrowright'} size={25} color='#fff' style={{flex:0.5, alignContent:'center', alignSelf:'center'}} />
-        <Text style={[styles.text,{flex:2,color:'#ffffff',fontWeight: 'bold',}]}>Vietnamese</Text>
+        <Text style={[styles.text,{color:'#ffffff',fontWeight: 'bold',marginLeft:20}]}>English</Text>
+        <ArrowRight name={'arrowright'} size={25} color='#fff' style={{ alignContent:'center', alignSelf:'center',marginHorizontal:70}} />
+        <Text style={[styles.text,{color:'#ffffff',fontWeight: 'bold',marginRight:20}]}>Vietnamese</Text>
       </View>
 
   </View>
@@ -100,19 +91,16 @@ class SearchWords extends React.Component{
 
   InputSearch=()=>{
     return(
-      <View style={{marginTop:20,flexDirection:'row'}} >
+      <View style={{marginTop:20,flexDirection:'row',height:60,borderWidth:1,borderColor:'#dfeae1',marginHorizontal:10,backgroundColor:'#ffffff'}} >
       
         <TextInput 
-          style={{flex:4,height:60,borderWidth:1,borderColor:'#dfeae1',marginLeft:10,paddingHorizontal:20,fontSize:20,backgroundColor:'#ffffff'}} 
+        style={{fontSize:20,width:'90%',marginLeft:10}}
           placeholder="Nhập từ cần tìm vào đây"
           onChangeText={text => this.SearchFilterFunction(text)}
           value={this.state.search}
         />
-        <TouchableOpacity
-          style={{flex:0.5,height:60,borderWidth:0.5,borderColor:'#dfeae1',paddingTop:12.5,alignContent:'center',alignItems:'center',marginRight:10,backgroundColor:'#ffffff'}}
-          onPress={this.clear}>
-              <ArrowRight name='close' size={25} color='#000' />
-        </TouchableOpacity>
+        <ArrowRight name='close' size={25} color='#000' onPress={this.clear} style={{alignSelf:'center'}}/>
+       
        </View>
       
     );
@@ -121,29 +109,30 @@ class SearchWords extends React.Component{
   InputTrans=()=>{
     if(this.state.trans.length>0){
       return(
-     
+     <View>
         <FlatList
           data={this.state.trans}
           
           //Item Separator View
           renderItem={({ item }) => (
             // Single Comes here which will be repeatative for the FlatListItems
-              <View style={[{marginHorizontal:10,marginTop:10,width:'95%',backgroundColor:'#235915',minHeight:60}]}>
-              <Text style={[styles.text,{color:'#ffffff'}]}>+ {item.word}</Text>
-              <Text style={[styles.text,{color:'#ffffff'}]}>-> {item.description}</Text>
+            <View style={[styles1.item]}>
+              <Text style={[styles1.text,]}>{item.word}</Text>
+              <Text style={[styles1.text,{color:'#237921'}]}>/{item.pronounce}/</Text>
+              <Text style={[styles1.text,]}>{item.description}</Text>
             </View>
           )}
          
           style={{ marginTop: 10 }}
           keyExtractor={(item, index) => index.toString()}
         />
- 
+     </View>
     );
     }
     else{
       return(
-        <View style={[{marginHorizontal:10,marginTop:10,width:'95%',backgroundColor:'#235915',minHeight:60}]}>
-          <Text style={[styles.text,{color:'#ffffff'}]}>Không tìm thấy kết quả nào! </Text>
+        <View style={[styles1.item]}>
+          <Text style={[styles1.text]}>Không tìm thấy kết quả nào! </Text>
         </View>
       )
     }
@@ -158,6 +147,7 @@ class SearchWords extends React.Component{
           {this.InputSearch()}
           <Text style={[styles.text,{color:'#000'}]}>Gợi ý</Text>
           {this.InputTrans()}
+ 
         </View>
       </SafeAreaView >
   );
@@ -168,3 +158,17 @@ class SearchWords extends React.Component{
 }
 
 export default SearchWords;
+
+const styles1=StyleSheet.create({
+  text:{
+    fontSize:20,
+  },
+  item:{
+    marginHorizontal:10,
+    marginTop:10,
+    width:'95%',
+    backgroundColor:'#c9fbcb',
+    minHeight:60,
+    padding:10
+  }
+})
