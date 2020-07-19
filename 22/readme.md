@@ -20,6 +20,12 @@ Tính năng:
 -Tự thêm từ vựng mới vào danh sách
 -Tìm kiếm từ vựng
 
-Ứng dụng của nhóm: https://snack.expo.io/@pham_thi_thuy/3000_tu_vung
+Demo chức năng:
+* Thêm Từ
+![Add Word](https://s17.aconvert.com/convert/p3r68-cdx67/af39o-zhz0v.gif)
+* Chủ đề
+![Topic](https://s17.aconvert.com/convert/p3r68-cdx67/af39o-zhz0v.gif)
+* Hướng dẫn
+![Tutorial](https://s17.aconvert.com/convert/p3r68-cdx67/bx5ib-pf9w5.gif)
 
-https://drive.google.com/open?id=1czj0iwTqaC7LMfRJ7jCNAeqlon4F0Ynv
+
