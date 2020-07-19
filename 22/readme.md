@@ -22,10 +22,10 @@ Tính năng:
 
 Demo chức năng:
 * Thêm Từ
-![Add Word](https://s17.aconvert.com/convert/p3r68-cdx67/af39o-zhz0v.gif)
+![Add Word](./demo/them_tu.gif)
 * Chủ đề
-![Topic](https://s17.aconvert.com/convert/p3r68-cdx67/af39o-zhz0v.gif)
+![Topic](./demo/chu_de.gif)
 * Hướng dẫn
-![Tutorial](https://s17.aconvert.com/convert/p3r68-cdx67/bx5ib-pf9w5.gif)
+![Tutorial](./demo/huong_dan.gif)
 
 
