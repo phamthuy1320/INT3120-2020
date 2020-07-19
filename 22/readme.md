@@ -22,10 +22,16 @@ Tính năng:
 
 Demo chức năng:
 * Thêm Từ
+
 ![Add Word](./demo/them_tu.gif)
+
 * Chủ đề
+
 ![Topic](./demo/chu_de.gif)
+
 * Hướng dẫn
+
 ![Tutorial](./demo/huong_dan.gif)
+
 
 
